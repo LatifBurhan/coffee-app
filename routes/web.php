@@ -27,6 +27,9 @@ Route::get('/admin/pesan', function () {
 });
 
 
+
+
+
 // CRUD MENU
 Route::get('/admin/menu', [MenuController::class, 'index'])->name('menu.index');
 Route::post('/admin/menu', [MenuController::class, 'store'])->name('menu.store');
@@ -57,3 +60,7 @@ Route::post('/career/apply', [JobApplicationController::class, 'store'])->name('
 //ROUTES ADMIN APLICATION
 Route::get('/applications', [AdminApplicationController::class, 'index'])->name('admin.applications.index');
 Route::post('/applications/{id}/status', [AdminApplicationController::class, 'updateStatus'])->name('admin.applications.updateStatus');
+
+
+//CEKK STATUS LAMARAN
+Route::post('/track-application', [HomeController::class, 'track'])->name('career.track');

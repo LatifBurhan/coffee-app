@@ -132,3 +132,101 @@
         </div>
     </div>
 </section>
+
+<section id="track-status" class="py-20 bg-gray-900 text-white relative overflow-hidden">
+
+    <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+        <i class="fas fa-coffee absolute -top-10 -left-10 text-[200px]"></i>
+        <i class="fas fa-search absolute -bottom-10 -right-10 text-[200px]"></i>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+
+            <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">Sudah Melamar?</h2>
+            <p class="text-gray-400 mb-8">
+                Pantau progres lamaran Anda di sini. Cukup masukkan Email dan Nomor HP yang Anda gunakan saat mendaftar.
+            </p>
+
+            <div class="bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-xl">
+                <form action="{{ route('career.track') }}" method="POST" class="space-y-4">
+                    @csrf
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="email" name="email" placeholder="Masukkan Email Anda" required
+                               class="w-full px-5 py-3 bg-white/10 border border-white/30 rounded-full text-white placeholder-gray-400 focus:outline-none focus:bg-white/20 focus:border-orange-500 transition text-center md:text-left">
+
+                        <input type="text" name="phone" placeholder="Masukkan No HP / WhatsApp" required
+                               class="w-full px-5 py-3 bg-white/10 border border-white/30 rounded-full text-white placeholder-gray-400 focus:outline-none focus:bg-white/20 focus:border-orange-500 transition text-center md:text-left">
+                    </div>
+
+                    <button type="submit" class="w-full md:w-auto px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-full transition transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-search mr-2"></i> Cek Status Saya
+                    </button>
+                </form>
+
+                @if(session('error'))
+                    <div class="mt-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-200">
+                        <i class="fas fa-exclamation-circle mr-2"></i> {{ session('error') }}
+                    </div>
+                @endif
+            </div>
+
+            @if(session('track_result'))
+                <div class="mt-10 space-y-4 animate-fade-in-up">
+                    <h3 class="text-xl font-bold text-orange-400 border-b border-gray-700 pb-2 inline-block">Hasil Pencarian</h3>
+
+                    <div class="grid gap-4">
+                        @foreach(session('track_result') as $result)
+                            <div class="bg-white text-gray-800 p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-center gap-4 text-left">
+
+                                <div>
+                                    <h4 class="font-bold text-xl">{{ $result->job->title ?? 'Posisi Tidak Ditemukan' }}</h4>
+                                    <p class="text-sm text-gray-500">
+                                        <i class="far fa-calendar-alt mr-1"></i> Melamar pada: {{ $result->created_at->format('d M Y') }}
+                                    </p>
+                                </div>
+
+                                <div class="text-center">
+                                    <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Status Lamaran</p>
+
+                                    @php
+                                        // Logika Warna Badge
+                                        $color = 'bg-gray-200 text-gray-600'; // Default pending
+                                        $icon = 'fa-clock';
+
+                                        if($result->status == 'review cv') {
+                                            $color = 'bg-blue-100 text-blue-700 border border-blue-200';
+                                            $icon = 'fa-file-alt';
+                                        }
+                                        elseif($result->status == 'wawancara') {
+                                            $color = 'bg-yellow-100 text-yellow-700 border border-yellow-200';
+                                            $icon = 'fa-user-tie';
+                                        }
+                                        elseif($result->status == 'fgd') {
+                                            $color = 'bg-purple-100 text-purple-700 border border-purple-200';
+                                            $icon = 'fa-users';
+                                        }
+                                        elseif($result->status == 'diterima') {
+                                            $color = 'bg-green-100 text-green-700 border border-green-200';
+                                            $icon = 'fa-check-circle';
+                                        }
+                                        elseif($result->status == 'ditolak') {
+                                            $color = 'bg-red-100 text-red-700 border border-red-200';
+                                            $icon = 'fa-times-circle';
+                                        }
+                                    @endphp
+
+                                    <span class="px-5 py-2 rounded-full font-bold text-sm {{ $color }} inline-flex items-center gap-2 shadow-sm">
+                                        <i class="fas {{ $icon }}"></i> {{ ucfirst($result->status) }}
+                                    </span>
+                                </div>
+
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+        </div>
+    </div>
+</section>
