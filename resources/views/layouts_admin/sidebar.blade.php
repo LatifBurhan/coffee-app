@@ -13,5 +13,9 @@
         <a href="/admin/jobs" class="block py-2.5 px-4 hover:bg-orange-800">
             <i class="fas fa-coffee mr-2"></i> Management Jobs
         </a>
+        <a href="{{ route('admin.applications.index') }}"
+            class="block py-2.5 px-4 hover:bg-orange-800 {{ request()->routeIs('admin.applications.*') ? 'bg-orange-800' : '' }}">
+            <i class="fas fa-users mr-2"></i> Data Pelamar
+        </a>
     </nav>
 </aside>

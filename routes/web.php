@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdminApplicationController;
 use App\Http\Controllers\AdminJobController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PesanController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -41,3 +44,16 @@ Route::get('/admin/pesan', [PesanController::class, 'index'])->name('admin.messa
 Route::get('/admin/jobs', [AdminJobController::class, 'index'])->name('admin.jobs.index');
 Route::get('/admin/jobs/create', [AdminJobController::class, 'create'])->name('admin.jobs.create');
 Route::post('/admin/jobs', [AdminJobController::class, 'store'])->name('admin.jobs.store');
+
+
+//ROUTES APLICATION JOBS
+
+Route::get('/career/{id}/apply', [JobApplicationController::class, 'create'])->name('career.apply');
+
+// Route Proses Kirim Lamaran (POST)
+Route::post('/career/apply', [JobApplicationController::class, 'store'])->name('career.store');
+
+
+//ROUTES ADMIN APLICATION
+Route::get('/applications', [AdminApplicationController::class, 'index'])->name('admin.applications.index');
+Route::post('/applications/{id}/status', [AdminApplicationController::class, 'updateStatus'])->name('admin.applications.updateStatus');
