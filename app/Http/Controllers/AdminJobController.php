@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Job; // Import Model Job
+use App\Models\Job;
 
 class AdminJobController extends Controller
 {
@@ -20,24 +20,62 @@ class AdminJobController extends Controller
         return view('layouts_admin.jobscreate');
     }
 
-    // 3. Simpan Data ke Database
+    // 3. Simpan Data Baru
     public function store(Request $request)
     {
-        // Validasi
         $request->validate([
             'title' => 'required',
             'type' => 'required',
             'description' => 'required',
         ]);
 
-        // Simpan
         Job::create([
             'title' => $request->title,
             'type' => $request->type,
             'description' => $request->description,
-            'is_active' => true,
+            'is_active' => true, // Default aktif
         ]);
 
         return redirect()->route('admin.jobs.index')->with('success', 'Lowongan berhasil dibuat!');
+    }
+
+    // --- FITUR BARU MULAI DARI SINI ---
+
+    // 4. Tampilkan Form Edit
+    public function edit($id)
+    {
+        $job = Job::findOrFail($id);
+        return view('layouts_admin.updatejobs', compact('job'));
+    }
+
+    // 5. Update Data ke Database
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'type' => 'required',
+            'description' => 'required',
+        ]);
+
+        $job = Job::findOrFail($id);
+
+        $job->update([
+            'title' => $request->title,
+            'type' => $request->type,
+            'description' => $request->description,
+            // Cek apakah checkbox dicentang (return true/false)
+            'is_active' => $request->has('is_active'),
+        ]);
+
+        return redirect()->route('admin.jobs.index')->with('success', 'Lowongan berhasil diperbarui!');
+    }
+
+    // 6. Hapus Data
+    public function destroy($id)
+    {
+        $job = Job::findOrFail($id);
+        $job->delete();
+
+        return redirect()->route('admin.jobs.index')->with('success', 'Lowongan berhasil dihapus!');
     }
 }

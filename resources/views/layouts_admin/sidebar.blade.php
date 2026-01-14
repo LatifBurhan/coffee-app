@@ -10,8 +10,9 @@
         <a href="/admin/pesan" class="block py-2.5 px-4 hover:bg-orange-800">
             <i class="fas fa-coffee mr-2"></i> pesan
         </a>
-        <a href="/admin/jobs" class="block py-2.5 px-4 hover:bg-orange-800">
-            <i class="fas fa-coffee mr-2"></i> Management Jobs
+        <a href="{{ route('admin.jobs.index') }}"
+            class="block py-2.5 px-4 rounded transition duration-200 {{ request()->routeIs('admin.jobs.*') ? 'bg-orange-800 text-white shadow-lg' : 'hover:bg-orange-800 hover:text-white text-gray-200' }}">
+            <i class="fas fa-briefcase mr-2 w-6 text-center"></i> Management Jobs
         </a>
         <a href="{{ route('admin.applications.index') }}"
             class="block py-2.5 px-4 hover:bg-orange-800 {{ request()->routeIs('admin.applications.*') ? 'bg-orange-800' : '' }}">

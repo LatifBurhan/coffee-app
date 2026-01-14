@@ -44,13 +44,14 @@ Route::get('/admin/pesan', [PesanController::class, 'index'])->name('admin.messa
 
 
 //ROUTES ADMIN JOBS
-Route::get('/admin/jobs', [AdminJobController::class, 'index'])->name('admin.jobs.index');
-Route::get('/admin/jobs/create', [AdminJobController::class, 'create'])->name('admin.jobs.create');
-Route::post('/admin/jobs', [AdminJobController::class, 'store'])->name('admin.jobs.store');
-
+    Route::get('/jobs', [AdminJobController::class, 'index'])->name('admin.jobs.index');
+    Route::get('/jobs/create', [AdminJobController::class, 'create'])->name('admin.jobs.create');
+    Route::post('/jobs', [AdminJobController::class, 'store'])->name('admin.jobs.store');
+    Route::get('/jobs/{id}/edit', [AdminJobController::class, 'edit'])->name('admin.jobs.edit');
+    Route::put('/jobs/{id}', [AdminJobController::class, 'update'])->name('admin.jobs.update'); // Pakai PUT
+    Route::delete('/jobs/{id}', [AdminJobController::class, 'destroy'])->name('admin.jobs.destroy'); // Pakai DELETE
 
 //ROUTES APLICATION JOBS
-
 Route::get('/career/{id}/apply', [JobApplicationController::class, 'create'])->name('career.apply');
 
 // Route Proses Kirim Lamaran (POST)
