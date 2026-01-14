@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminJobController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PesanController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -32,3 +34,10 @@ Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('menu.up
 //ROUTE PESAN
 Route::post('/contact-send', [PesanController::class, 'store'])->name('contact.store');
 Route::get('/admin/pesan', [PesanController::class, 'index'])->name('admin.messages');
+
+
+
+//ROUTES ADMIN JOBS
+Route::get('/admin/jobs', [AdminJobController::class, 'index'])->name('admin.jobs.index');
+Route::get('/admin/jobs/create', [AdminJobController::class, 'create'])->name('admin.jobs.create');
+Route::post('/admin/jobs', [AdminJobController::class, 'store'])->name('admin.jobs.store');

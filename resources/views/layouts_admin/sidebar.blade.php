@@ -10,5 +10,8 @@
         <a href="/admin/pesan" class="block py-2.5 px-4 hover:bg-orange-800">
             <i class="fas fa-coffee mr-2"></i> pesan
         </a>
+        <a href="/admin/jobs" class="block py-2.5 px-4 hover:bg-orange-800">
+            <i class="fas fa-coffee mr-2"></i> Management Jobs
+        </a>
     </nav>
 </aside>
