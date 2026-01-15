@@ -18,5 +18,9 @@
             class="block py-2.5 px-4 hover:bg-orange-800 {{ request()->routeIs('admin.applications.*') ? 'bg-orange-800' : '' }}">
             <i class="fas fa-users mr-2"></i> Data Pelamar
         </a>
+        <a href="{{ route('admin.reservations.index') }}"
+            class="block py-2.5 px-4 rounded transition duration-200 {{ request()->routeIs('admin.reservations.*') ? 'bg-orange-800 text-white shadow-lg' : 'hover:bg-orange-800 hover:text-white text-gray-200' }}">
+            <i class="fas fa-calendar-alt mr-2 w-6 text-center"></i> Data Reservasi
+        </a>
     </nav>
 </aside>

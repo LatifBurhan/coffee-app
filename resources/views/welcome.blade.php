@@ -17,6 +17,7 @@
     @include('landingpage.menu')
     @include('landingpage.contactme')
     @include('landingpage.carers')
+    @include('landingpage.reservation')
     @include('landingpage.footer')
 
 

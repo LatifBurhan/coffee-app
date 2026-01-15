@@ -18,12 +18,6 @@
                 <a class="text-white hover:text-orange-400 transition font-medium text-sm uppercase tracking-wide" href="#menu">Menu</a>
                 <a class="text-white hover:text-orange-400 transition font-medium text-sm uppercase tracking-wide" href="#contactme">Contact</a>
                 <a class="text-white hover:text-orange-400 transition font-medium text-sm uppercase tracking-wide" href="#career">Careers</a>
-
-                @auth
-                    <a href="{{ url('/dashboard') }}" class="px-5 py-2 bg-[#4a3a2e] text-white rounded-full text-sm font-bold hover:bg-orange-700 transition">Dashboard</a>
-                @else
-                    <a href="#" class="px-5 py-2 border border-white text-white rounded-full text-sm font-bold hover:bg-white hover:text-black transition">Login</a>
-                @endauth
             </div>
 
         </div>
@@ -35,11 +29,7 @@
                 <li><a class="block text-white hover:text-orange-400 font-medium" href="#menu">Menu</a></li>
                 <li><a class="block text-white hover:text-orange-400 font-medium" href="#contactme">Contact</a></li>
                 <li><a class="block text-white hover:text-orange-400 font-medium" href="#career">Careers</a></li>
-                @auth
-                    <li><a href="{{ url('/dashboard') }}" class="block text-orange-400 font-bold">Dashboard</a></li>
-                @else
-                    <li><a href="#" class="block text-orange-400 font-bold">Login</a></li>
-                @endauth
+
             </ul>
         </div>
     </div>

@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AdminApplicationController;
 use App\Http\Controllers\AdminJobController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PesanController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 Route::get('/admin', function () {
@@ -65,3 +67,30 @@ Route::post('/applications/{id}/status', [AdminApplicationController::class, 'up
 
 //CEKK STATUS LAMARAN
 Route::post('/track-application', [HomeController::class, 'track'])->name('career.track');
+
+
+//  ROUTE RESERVATION
+Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
+
+// 2. Route Admin (Kelola Booking)
+// Masukkan ini KE DALAM group middleware 'auth' yang sudah ada
+Route::middleware(['auth'])->group(function () {
+
+    // ... route admin lainnya ...
+
+    // RESERVASI
+    Route::get('/admin/reservations', [ReservationController::class, 'index'])->name('admin.reservations.index');
+    Route::post('/admin/reservations/{id}', [ReservationController::class, 'updateStatus'])->name('admin.reservations.update');
+});
+
+
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+
+//ROUTE AUTH
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.process');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
