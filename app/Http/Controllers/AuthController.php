@@ -26,7 +26,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             // Jika sukses, arahkan ke Dashboard Admin
-            return redirect()->intended('/admin/applications');
+            return redirect()->intended('/admin');
         }
 
         // Jika gagal
