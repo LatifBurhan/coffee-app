@@ -1,96 +1,83 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminApplicationController;
 use App\Http\Controllers\AdminJobController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PesanController;
-use App\Http\Controllers\ReservationController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobApplicationController;
 
+/*
+|--------------------------------------------------------------------------
+| 1. ROUTE PUBLIC (Bisa diakses SIAPA SAJA tanpa login)
+|--------------------------------------------------------------------------
+*/
 
-
-
-
-
+// Halaman Depan
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
-Route::get('/admin', function () {
-    return view('layouts.admin');
-});
-Route::get('/admin/menu', function () {
-    return view('layouts_admin.menus');
-});
-Route::get('/admin/pesan', function () {
-    return view('layouts_admin.pesan');
-});
-
-
-
-
-
-// CRUD MENU
-Route::get('/admin/menu', [MenuController::class, 'index'])->name('menu.index');
-Route::post('/admin/menu', [MenuController::class, 'store'])->name('menu.store');
-Route::delete('/admin/menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
-Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
-
-
-//ROUTE PESAN
+// Kirim Pesan (Contact Us)
 Route::post('/contact-send', [PesanController::class, 'store'])->name('contact.store');
-Route::get('/admin/pesan', [PesanController::class, 'index'])->name('admin.messages');
 
-
-
-//ROUTES ADMIN JOBS
-    Route::get('/jobs', [AdminJobController::class, 'index'])->name('admin.jobs.index');
-    Route::get('/jobs/create', [AdminJobController::class, 'create'])->name('admin.jobs.create');
-    Route::post('/jobs', [AdminJobController::class, 'store'])->name('admin.jobs.store');
-    Route::get('/jobs/{id}/edit', [AdminJobController::class, 'edit'])->name('admin.jobs.edit');
-    Route::put('/jobs/{id}', [AdminJobController::class, 'update'])->name('admin.jobs.update'); // Pakai PUT
-    Route::delete('/jobs/{id}', [AdminJobController::class, 'destroy'])->name('admin.jobs.destroy'); // Pakai DELETE
-
-//ROUTES APLICATION JOBS
+// Pelamar Kerja (Public)
 Route::get('/career/{id}/apply', [JobApplicationController::class, 'create'])->name('career.apply');
-
-// Route Proses Kirim Lamaran (POST)
 Route::post('/career/apply', [JobApplicationController::class, 'store'])->name('career.store');
-
-
-//ROUTES ADMIN APLICATION
-Route::get('/applications', [AdminApplicationController::class, 'index'])->name('admin.applications.index');
-Route::post('/applications/{id}/status', [AdminApplicationController::class, 'updateStatus'])->name('admin.applications.updateStatus');
-
-
-//CEKK STATUS LAMARAN
 Route::post('/track-application', [HomeController::class, 'track'])->name('career.track');
 
-
-//  ROUTE RESERVATION
+// Reservasi (Public)
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
 Route::post('/track-reservation', [ReservationController::class, 'track'])->name('reservation.track');
-Route::middleware(['auth'])->group(function () {
-
-    // ... route admin lainnya ...
-
-    // RESERVASI
-    Route::get('/admin/reservations', [ReservationController::class, 'index'])->name('admin.reservations.index');
-    Route::post('/admin/reservations/{id}', [ReservationController::class, 'updateStatus'])->name('admin.reservations.update');
-});
 
 
-
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-
-//ROUTE AUTH
+/*
+|--------------------------------------------------------------------------
+| 2. ROUTE LOGIN & LOGOUT
+|--------------------------------------------------------------------------
+*/
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
+/*
+|--------------------------------------------------------------------------
+| 3. ROUTE ADMIN (WAJIB LOGIN)
+|--------------------------------------------------------------------------
+| Semua rute di dalam kurung ini AMAN karena dijaga 'auth'
+*/
+Route::middleware(['auth'])->group(function () {
+
+    // A. Pintu Masuk (Redirect /admin ke Dashboard Utama)
+    Route::get('/admin', function () {
+        return redirect()->route('admin.applications.index');
+    });
+
+    // B. Dashboard Lamaran (Applications)
+    Route::get('/admin/applications', [AdminApplicationController::class, 'index'])->name('admin.applications.index');
+    Route::post('/admin/applications/{id}/update-status', [AdminApplicationController::class, 'updateStatus'])->name('admin.applications.updateStatus');
+
+    // C. Manajemen Menu
+    Route::get('/admin/menu', [MenuController::class, 'index'])->name('menu.index');
+    Route::post('/admin/menu', [MenuController::class, 'store'])->name('menu.store');
+    Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
+    Route::delete('/admin/menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
+
+    // D. Manajemen Pesan Masuk
+    Route::get('/admin/pesan', [PesanController::class, 'index'])->name('admin.messages');
+
+    // E. Manajemen Jobs (Lowongan) - Saya tambahkan prefix /admin biar rapi
+    Route::get('/admin/jobs', [AdminJobController::class, 'index'])->name('admin.jobs.index');
+    Route::get('/admin/jobs/create', [AdminJobController::class, 'create'])->name('admin.jobs.create');
+    Route::post('/admin/jobs', [AdminJobController::class, 'store'])->name('admin.jobs.store');
+    Route::get('/admin/jobs/{id}/edit', [AdminJobController::class, 'edit'])->name('admin.jobs.edit');
+    Route::put('/admin/jobs/{id}', [AdminJobController::class, 'update'])->name('admin.jobs.update');
+    Route::delete('/admin/jobs/{id}', [AdminJobController::class, 'destroy'])->name('admin.jobs.destroy');
+
+    // F. Manajemen Reservasi
+    Route::get('/admin/reservations', [ReservationController::class, 'index'])->name('admin.reservations.index');
+    Route::post('/admin/reservations/{id}', [ReservationController::class, 'updateStatus'])->name('admin.reservations.update');
+
+});
