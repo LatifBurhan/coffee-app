@@ -23,6 +23,7 @@
                 <tr>
                     <th class="p-4 text-left">Gambar</th>
                     <th class="p-4 text-left">Nama</th>
+                    <th class="p-4 text-left">Deskripsi</th>
                     <th class="p-4 text-left">Harga</th>
                     <th class="p-4 text-center">Aksi</th> {{-- Ditambah center --}}
                 </tr>
@@ -34,6 +35,7 @@
                             <img src="/images/{{ $menu->gambar }}" width="60" height="60"
                                 class="rounded object-cover border">
                         </td>
+                        <td class="p-4 font-bold text-gray-800">{{ $menu->nama_menu }}</td>
                         <td class="p-4 font-bold text-gray-800">{{ $menu->nama_menu }}</td>
                         <td class="p-4 text-orange-600 font-semibold">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
                         <td class="p-4">

@@ -44,4 +44,27 @@ class ReservationController extends Controller
 
         return redirect()->back()->with('success', 'Status reservasi diperbarui!');
     }
+
+    // --- FITUR LACAK RESERVASI ---
+    public function track(Request $request)
+    {
+        // 1. Validasi Input
+        $request->validate([
+            'keyword' => 'required' // Bisa Email atau No HP
+        ]);
+
+        // 2. Cari Data (Berdasarkan Email ATAU No HP)
+        $reservations = Reservation::where('email', $request->keyword)
+                                   ->orWhere('phone', $request->keyword)
+                                   ->latest() // Yang terbaru muncul duluan
+                                   ->get();
+
+        // 3. Cek Apakah Ketemu?
+        if($reservations->isEmpty()) {
+            return redirect('/#reservation')->with('track_error', 'Maaf, data reservasi tidak ditemukan. Cek kembali nomor/email Anda.');
+        }
+
+        // 4. Kirim Hasil ke Halaman Depan
+        return redirect('/#reservation')->with('track_result', $reservations);
+    }
 }

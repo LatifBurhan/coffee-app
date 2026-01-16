@@ -71,9 +71,7 @@ Route::post('/track-application', [HomeController::class, 'track'])->name('caree
 
 //  ROUTE RESERVATION
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
-
-// 2. Route Admin (Kelola Booking)
-// Masukkan ini KE DALAM group middleware 'auth' yang sudah ada
+Route::post('/track-reservation', [ReservationController::class, 'track'])->name('reservation.track');
 Route::middleware(['auth'])->group(function () {
 
     // ... route admin lainnya ...
@@ -94,3 +92,5 @@ Route::get('/login', function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
