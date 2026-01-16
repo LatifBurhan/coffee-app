@@ -15,9 +15,9 @@
     @include('landingpage.hero')
     @include('landingpage.about')
     @include('landingpage.menu')
-    @include('landingpage.contactme')
     @include('landingpage.carers')
     @include('landingpage.reservation')
+    @include('landingpage.contactme')
     @include('landingpage.footer')
 
 

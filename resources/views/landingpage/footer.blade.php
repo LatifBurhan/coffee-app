@@ -77,13 +77,6 @@
         <div class="border-t border-gray-100 pt-8 mt-8">
             <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 gap-4">
                 <p>&copy; {{ date('Y') }} SARONE Coffee. All rights reserved.</p>
-
-                <div class="flex items-center gap-1">
-                    <span>Designed with</span>
-                    <i class="fas fa-heart text-red-400 animate-pulse"></i>
-                    <span>by</span>
-                    <span class="font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">Latif Burhanuddin</span>
-                </div>
             </div>
         </div>
     </div>
