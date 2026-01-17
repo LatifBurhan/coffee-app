@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
+
 use Illuminate\Support\Facades\Http;
-
-
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 
@@ -67,7 +67,7 @@ class ReservationController extends Controller
             // C. TEMBAK API FONNTE (Request ke Server Luar)
             try {
                 $response = Http::withHeaders([
-                    'Authorization' => 'gCccoPheb6QHt8AJD5iG', 
+                    'Authorization' => 'gCccoPheb6QHt8AJD5iG',
                 ])->post('https://api.fonnte.com/send', [
                     'target' => $nomor_tujuan,
                     'message' => $pesan,
