@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\JobApplication; // Import Model Lamaran
+use App\Models\JobApplication;
 use Illuminate\Support\Facades\Http;
 
 class AdminApplicationController extends Controller
@@ -25,8 +25,8 @@ class AdminApplicationController extends Controller
         $application->status = $request->status;
         $application->save();
 
-        // 2. LOGIKA KIRIM WA (Sesuaikan dengan value dropdown Anda)
-        // Kita kirim WA kalau statusnya: wawancara, fgd, diterima, atau ditolak
+// 2. LOGIKA KIRIM WA (Sesuaikan dengan value dropdown Anda)
+// Kita kirim WA kalau statusnya: wawancara, fgd, diterima, atau ditolak
         if (in_array($request->status, ['wawancara', 'fgd', 'diterima', 'ditolak'])) {
 
             // A. Format Nomor HP
@@ -56,7 +56,7 @@ class AdminApplicationController extends Controller
             // C. Kirim via Fonnte
             try {
                 Http::withHeaders([
-                    'Authorization' => 'gCccoPheb6QHt8AJD5iG', 
+                    'Authorization' => 'gCccoPheb6QHt8AJD5iG',
                 ])->post('https://api.fonnte.com/send', [
                     'target' => $nomor_tujuan,
                     'message' => $pesan,
